@@ -7,11 +7,14 @@ RUN apt-get install -y \
 	git \
 	mercurial \
 	python \
+	python-dev \
 	python-setuptools \
 	ruby \
 	ruby-dev \
 	libssl-dev \
 	libffi-dev \
+	libxml2-dev \
+	libxslt-dev \
 	build-essential
 
 RUN easy_install pip

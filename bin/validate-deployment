@@ -1,0 +1,5 @@
+#!/bin/bash
+
+az group deployment validate \
+    --template-file azuredeploy.json \
+    --resource-group $ANECDOTE_AZURE_DEPLOYMENT_NAME

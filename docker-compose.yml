@@ -5,6 +5,14 @@ services:
   cli:
     build: .
     container_name: anecdote-azure-cli
+    env_file: .env
+
+    environment:
+      - AZURE_ACTIVE_DIRECTORY_ID
+      - AZURE_DEPLOYMENT_APPLICATION_ID
+      - AZURE_DEPLOYMENT_APPLICATION_SECRET
+      - ANECDOTE_AZURE_DEPLOYMENT_NAME
 
     volumes:
+      - "./.azure:/root/.azure"
       - "./:/app"

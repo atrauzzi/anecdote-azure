@@ -1,0 +1,12 @@
+#!/bin/bash
+
+for dir in ./functions/*
+do
+    DIR=${dir%*/}
+
+    cd $DIR
+
+    yarn install --no-bin-links
+
+    cd ..
+done

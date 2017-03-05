@@ -1,0 +1,12 @@
+#!/bin/bash
+
+az group create \
+    --location eastus2 \
+    --name $ANECDOTE_AZURE_DEPLOYMENT_NAME \
+    --tags anecdote=true
+
+az group deployment create \
+    --template-file azuredeploy.json \
+    --mode incremental \
+    --parameters "{\"name\":{\"value\": \"$ANECDOTE_AZURE_DEPLOYMENT_NAME\"}}" \
+    --resource-group $ANECDOTE_AZURE_DEPLOYMENT_NAME

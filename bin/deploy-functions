@@ -1,7 +1,9 @@
 #!/bin/bash
 
-# Install NPM dependencies for every function app.
-  # Only install production ones
+#
+
 # Compress function apps
+
 # Upload to Azure
   # Need some way to obtain FTP credentials from environment
+  # Maybe now that the azure cli is authenticated, we don't need to use FTP???

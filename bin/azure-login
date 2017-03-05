@@ -1,0 +1,7 @@
+#!/bin/bash
+
+az login \
+    --service-principal \
+    --tenant $AZURE_ACTIVE_DIRECTORY_ID \
+    --username $AZURE_DEPLOYMENT_APPLICATION_ID \
+    --password $AZURE_DEPLOYMENT_APPLICATION_SECRET
