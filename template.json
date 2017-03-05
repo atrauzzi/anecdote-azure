@@ -1,0 +1,93 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "defaultValue": "anecdote",
+            "type": "String"
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.DocumentDB/databaseAccounts",
+            "kind": "MongoDB",
+            "name": "[parameters('name')]",
+            "apiVersion": "2015-04-08",
+            "location": "East US 2",
+            "tags": {},
+            "properties": {
+                "databaseAccountOfferType": "Standard",
+                "consistencyPolicy": {
+                    "defaultConsistencyLevel": "Session",
+                    "maxIntervalInSeconds": 5,
+                    "maxStalenessPrefix": 100
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[replace(parameters('name'), '-', '')]",
+            "apiVersion": "2016-01-01",
+            "location": "eastus2",
+            "tags": {},
+            "properties": {},
+            "dependsOn": []
+        },
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "sku": {
+                "name": "Y1",
+                "tier": "Dynamic",
+                "size": "Y1",
+                "family": "Y",
+                "capacity": 0
+            },
+            "kind": "functionapp",
+            "name": "[concat(parameters('name'), '-engine')]",
+            "apiVersion": "2015-08-01",
+            "location": "East US 2",
+            "properties": {
+                "numberOfWorkers": 0
+            },
+            "dependsOn": []
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "kind": "functionapp",
+            "name": "[concat(parameters('name'), '-engine')]",
+            "apiVersion": "2015-08-01",
+            "location": "East US 2",
+            "properties": {
+                "name": "[concat(parameters('name'), '-engine')]",
+                "hostNames": [
+                    "anecdote-engine.azurewebsites.net"
+                ],
+                "enabledHostNames": [
+                    "anecdote-engine.azurewebsites.net",
+                    "anecdote-engine.scm.azurewebsites.net"
+                ],
+                "hostNameSslStates": [
+                    {
+                        "name": "[concat(parameters('name'),'-engine.azurewebsites.net')]",
+                        "sslState": 0,
+                        "thumbprint": null,
+                        "ipBasedSslState": 0
+                    },
+                    {
+                        "name": "[concat(parameters('name'),'-engine.scm.azurewebsites.net')]",
+                        "sslState": 0,
+                        "thumbprint": null,
+                        "ipBasedSslState": 0
+                    }
+                ],
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', concat(parameters('name'), '-engine'))]"
+            }
+        }
+    ]
+}

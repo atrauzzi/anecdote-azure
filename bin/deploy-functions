@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Install NPM dependencies for every function app.
+  # Only install production ones
+# Compress function apps
+# Upload to Azure
+  # Need some way to obtain FTP credentials from environment
