@@ -66,11 +66,11 @@
             "properties": {
                 "name": "[concat(parameters('name'), '-engine')]",
                 "hostNames": [
-                    "anecdote-engine.azurewebsites.net"
+                    "[concat(parameters('name'), '-engine.azurewebsites.net')]"
                 ],
                 "enabledHostNames": [
-                    "anecdote-engine.azurewebsites.net",
-                    "anecdote-engine.scm.azurewebsites.net"
+                    "[concat(parameters('name'), '-engine.azurewebsites.net')]",
+                    "[concat(parameters('name'), '-engine.scm.azurewebsites.net')]"
                 ],
                 "hostNameSslStates": [
                     {

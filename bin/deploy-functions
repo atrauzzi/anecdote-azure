@@ -1,9 +1,32 @@
 #!/bin/bash
 
-#
+git config --global user.email "anecdote"
+git config --global user.name "Anecdote Automation Scripts"
+echo "machine ${ANECDOTE_AZURE_DEPLOYMENT_NAME}-engine.scm.azurewebsites.net login ${ANECDOTE_AZURE_APP_SERVICE_DEPLOYMENT_USERNAME} password ${ANECDOTE_AZURE_APP_SERVICE_DEPLOYMENT_PASSWORD}" > ~/.netrc
+cat ~/.netrc
+chmod 600 ~/.netrc
 
-# Compress function apps
+cd functions
 
-# Upload to Azure
-  # Need some way to obtain FTP credentials from environment
-  # Maybe now that the azure cli is authenticated, we don't need to use FTP???
+git init .
+
+DEPLOYMENT_REMOTE=`az appservice web source-control config-local-git \
+    --resource-group $ANECDOTE_AZURE_DEPLOYMENT_NAME \
+    --name $ANECDOTE_AZURE_DEPLOYMENT_NAME-engine \
+    --query url \
+    --output tsv`
+
+USERNAME_PASSWORD="${ANECDOTE_AZURE_APP_SERVICE_DEPLOYMENT_USERNAME}:${ANECDOTE_AZURE_APP_SERVICE_DEPLOYMENT_PASSWORD}"
+
+az appservice web deployment user set \
+    --user-name $ANECDOTE_AZURE_APP_SERVICE_DEPLOYMENT_USERNAME \
+    --password $ANECDOTE_AZURE_APP_SERVICE_DEPLOYMENT_PASSWORD
+
+git remote add azure $DEPLOYMENT_REMOTE
+git add .
+git commit -m "Automated deployment commit."
+git push azure master
+
+rm -rf .git
+
+cd ..
