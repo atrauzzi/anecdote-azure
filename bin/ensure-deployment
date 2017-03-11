@@ -10,3 +10,7 @@ az group deployment create \
     --mode incremental \
     --parameters "{\"name\":{\"value\": \"$ANECDOTE_AZURE_DEPLOYMENT_NAME\"}}" \
     --resource-group $ANECDOTE_AZURE_DEPLOYMENT_NAME
+
+az group deployment wait \
+    --name $ANECDOTE_AZURE_DEPLOYMENT_NAME \
+    --resource-group $ANECDOTE_AZURE_DEPLOYMENT_NAME
