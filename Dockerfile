@@ -15,6 +15,8 @@ RUN apt-get install -y \
 	libffi-dev \
 	libxml2-dev \
 	libxslt-dev \
+	zip \
+	coreutils \
 	build-essential
 
 RUN easy_install pip

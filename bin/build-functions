@@ -6,7 +6,7 @@ do
 
     cd $DIR
 
-    yarn install --no-bin-links
+    yarn upgrade --no-bin-links
 
     cd ..
 done

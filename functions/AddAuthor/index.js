@@ -5,10 +5,10 @@ module.exports = function (context, input) {
 
     const anecdote = buildAnecdote();
 
-    console.log("Anecdote booted!");
-    console.log(anecdote);
-    console.log(context);
-    console.log(input);
+    context.log("Anecdote booted!");
+    context.log(anecdote);
+    context.log(context);
+    context.log(input);
 
     context.done();
 };

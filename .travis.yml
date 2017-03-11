@@ -1,0 +1,21 @@
+sudo: required
+
+services:
+  - docker
+
+install:
+  - touch .env
+  - chmod +x bin/*
+  - docker-compose run --rm cli bash ./bin/login
+
+script:
+  - docker-compose run --rm cli bash ./bin/validate-deployment
+  - docker-compose run --rm cli bash ./bin/build-functions
+
+after_success:
+  - docker-compose run --rm cli bash ./bin/ensure-deployment
+  - docker-compose run --rm cli bash ./bin/deploy-functions
+
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
