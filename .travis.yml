@@ -9,7 +9,6 @@ install:
   - docker-compose run --rm cli bash ./bin/login
 
 script:
-  - docker-compose run --rm cli bash ./bin/validate-deployment
   - docker-compose run --rm cli bash ./bin/build-functions
 
 after_success:
