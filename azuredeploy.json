@@ -7,6 +7,10 @@
             "type": "String"
         }
     },
+    "variables": {
+        "engine": "[concat(parameters('name'), '-engine')]",
+        "storage": "[replace(parameters('name'), '-', '')]"
+    },
     "resources": [
         {
             "type": "Microsoft.DocumentDB/databaseAccounts",
@@ -33,7 +37,7 @@
                 "tier": "Standard"
             },
             "kind": "Storage",
-            "name": "[replace(parameters('name'), '-', '')]",
+            "name": "[variables('storage')]",
             "apiVersion": "2016-01-01",
             "location": "eastus2"
         },
@@ -57,11 +61,11 @@
         {
             "type": "Microsoft.Web/sites",
             "kind": "functionapp",
-            "name": "[concat(parameters('name'), '-engine')]",
+            "name": "[variables('engine')]",
             "apiVersion": "2015-08-01",
             "location": "East US 2",
             "properties": {
-                "name": "[concat(parameters('name'), '-engine')]",
+                "name": "[variables('engine')]",
                 "hostNames": [
                     "[concat(parameters('name'), '-engine.azurewebsites.net')]"
                 ],
@@ -83,7 +87,7 @@
                         "ipBasedSslState": 0
                     }
                 ],
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', concat(parameters('name'), '-engine'))]"
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('engine'))]"
             },
             "resources": [
                 {
@@ -91,12 +95,14 @@
                     "type": "config",
                     "name": "appsettings",
                     "dependsOn": [
-                        "[concat(parameters('name'), '-engine')]",
-                        "[concat('Microsoft.DocumentDB/databaseAccounts/', parameters('name'))]"
+                        "[variables('engine')]",
+                        "[concat('Microsoft.DocumentDB/databaseAccounts/', parameters('name'))]",
+                        "[concat('Microsoft.Storage/storageAccounts/', variables('storage'))]"
                     ],
                     "properties": {
                         "MONGODB_HOST": "[reference(concat('Microsoft.DocumentDB/databaseAccounts/', parameters('name'))).documentEndpoint]",
-                        "MONGODB_KEY": "[listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts/', parameters('name')), '2015-04-08').primaryMasterKey]"
+                        "MONGODB_KEY": "[listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts/', parameters('name')), '2015-04-08').primaryMasterKey]",
+                        "STORAGE_KEY": "[listKeys(resourceId('Microsoft.Storage/storageAccounts/', variables('storage')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"
                     }
                 }
             ]
