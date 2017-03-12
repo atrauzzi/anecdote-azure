@@ -128,8 +128,7 @@
                         "[concat('Microsoft.Storage/storageAccounts/', variables('storage'))]"
                     ],
                     "properties": {
-                        "MONGODB_HOST": "[reference(concat('Microsoft.DocumentDB/databaseAccounts/', parameters('name'))).documentEndpoint]",
-                        "MONGODB_KEY": "[listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts/', parameters('name')), '2015-04-08').primaryMasterKey]",
+                        "MONGODB_CONNECTION_STRING": "[concat('mongodb://', parameters('name'), ':', listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts/', parameters('name')), '2015-04-08').primaryMasterKey, '@', parameters('name'), '.documents.azure.com:10250/?ssl=true')]",
                         "SERVICE_BUS_CONNECTION_STRING": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/AuthorizationRules/', parameters('name'), parameters('name')), '2015-08-01').primaryConnectionString]",
                         "STORAGE_KEY": "[listKeys(resourceId('Microsoft.Storage/storageAccounts/', variables('storage')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"
                     }

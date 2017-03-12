@@ -14,7 +14,7 @@ This is the guid of the Azure Active Directory you wish to authenticate via.
 This is the guid of an application principal that you have granted access to your subscription.
 
 ### AZURE_DEPLOYMENT_APPLICATION_SECRET
-This any valid token that is currently active for the application principal you have chosen.
+This is any valid token that is currently active for the application principal you have chosen.
 
 ### ANECDOTE_AZURE_DEPLOYMENT_NAME
 This is a toplevel application handle in `kebab-case` that will be used as a convention and prefix for 
