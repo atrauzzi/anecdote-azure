@@ -13,4 +13,4 @@ az group deployment create \
 
 az group deployment wait \
     --name $ANECDOTE_AZURE_DEPLOYMENT_NAME \
-    --resource-group $ANECDOTE_AZURE_DEPLOYMENT_NAME
+    --resource-group $ANECDOTE_AZURE_DEPLOYMENT_NAME \

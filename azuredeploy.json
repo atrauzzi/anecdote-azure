@@ -14,7 +14,9 @@
             "name": "[parameters('name')]",
             "apiVersion": "2015-04-08",
             "location": "East US 2",
-            "tags": {},
+            "tags": {
+
+            },
             "properties": {
                 "databaseAccountOfferType": "Standard",
                 "consistencyPolicy": {
@@ -22,8 +24,7 @@
                     "maxIntervalInSeconds": 5,
                     "maxStalenessPrefix": 100
                 }
-            },
-            "dependsOn": []
+            }
         },
         {
             "type": "Microsoft.Storage/storageAccounts",
@@ -34,10 +35,7 @@
             "kind": "Storage",
             "name": "[replace(parameters('name'), '-', '')]",
             "apiVersion": "2016-01-01",
-            "location": "eastus2",
-            "tags": {},
-            "properties": {},
-            "dependsOn": []
+            "location": "eastus2"
         },
         {
             "type": "Microsoft.Web/serverfarms",
@@ -54,8 +52,7 @@
             "location": "East US 2",
             "properties": {
                 "numberOfWorkers": 0
-            },
-            "dependsOn": []
+            }
         },
         {
             "type": "Microsoft.Web/sites",
@@ -87,7 +84,22 @@
                     }
                 ],
                 "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', concat(parameters('name'), '-engine'))]"
-            }
+            },
+            "resources": [
+                {
+                    "apiVersion": "2016-08-01",
+                    "type": "config",
+                    "name": "appsettings",
+                    "dependsOn": [
+                        "[concat(parameters('name'), '-engine')]",
+                        "[concat('Microsoft.DocumentDB/databaseAccounts/', parameters('name'))]"
+                    ],
+                    "properties": {
+                        "MONGODB_HOST": "[reference(concat('Microsoft.DocumentDB/databaseAccounts/', parameters('name'))).documentEndpoint]",
+                        "MONGODB_KEY": "[listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts/', parameters('name')), '2015-04-08').primaryMasterKey]"
+                    }
+                }
+            ]
         }
     ]
 }
