@@ -4,8 +4,6 @@ const Chance = require("chance");
 
 module.exports = function (context, input) {
 
-    context.log(anecdote.AzureServiceBusQueue);
-
     const anecdoteService = anecdote.build({
         queues: [
             anecdote.AzureServiceBusQueue
@@ -31,7 +29,7 @@ module.exports = function (context, input) {
 
     anecdoteService
         .addAuthor(author)
-        .then(function () { anecdote.close()})
+        .then(function () { anecdoteService.close()})
         .then(function () { context.log("End of line")})
         .then(function () { context.done()})
         .catch(function (error) { context.done(error)})
