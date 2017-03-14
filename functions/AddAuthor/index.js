@@ -1,14 +1,39 @@
-const buildAnecdote = require("anecdote-engine").build;
+const anecdote = require("anecdote-engine");
+const Chance = require("chance");
 
 
 module.exports = function (context, input) {
 
-    const anecdote = buildAnecdote();
+    context.log(anecdote.AzureServiceBusQueue);
+
+    const anecdoteService = anecdote.build({
+        queues: [
+            anecdote.AzureServiceBusQueue
+        ],
+        "MONGODB_CONNECTION_STRING": process.env["MONGODB_CONNECTION_STRING"],
+        "SERVICE_BUS_CONNECTION_STRING": process.env["SERVICE_BUS_CONNECTION_STRING"]
+    });
 
     context.log("Anecdote booted!");
-    context.log(anecdote);
-    context.log(context);
-    context.log(input);
 
-    context.done();
+    const author = {
+        id: Chance().guid(),
+        firstName: "Alexander",
+        lastName: "Trauzzi",
+        sources: [
+            {
+                nativeId: 115199,
+                username: "atrauzzi",
+                token: null
+            }
+        ]
+    };
+
+    anecdoteService
+        .addAuthor(author)
+        .then(function () { anecdote.close()})
+        .then(function () { context.log("End of line")})
+        .then(function () { context.done()})
+        .catch(function (error) { context.done(error)})
+    ;
 };
