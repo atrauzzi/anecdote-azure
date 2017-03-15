@@ -9,4 +9,5 @@ do
     yarn upgrade --no-bin-links --ignore-engines
 
     cd ..
+    cd ..
 done
