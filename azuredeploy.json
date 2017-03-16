@@ -92,8 +92,12 @@
             "name": "[variables('engine')]",
             "apiVersion": "2015-08-01",
             "location": "East US 2",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms/', variables('engine'))]"
+            ],
             "properties": {
                 "name": "[variables('engine')]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('engine'))]",
                 "hostNames": [
                     "[concat(parameters('name'), '-engine.azurewebsites.net')]"
                 ],
@@ -115,7 +119,11 @@
                         "ipBasedSslState": 0
                     }
                 ],
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('engine'))]"
+                "siteConfig": {
+                    "appSettings": [
+                        { "name": "FUNCTIONS_EXTENSION_VERSION", "value": "~1" }
+                    ]
+                }
             },
             "resources": [
                 {
@@ -123,14 +131,16 @@
                     "type": "config",
                     "name": "appsettings",
                     "dependsOn": [
-                        "[variables('engine')]",
-                        "[concat('Microsoft.DocumentDB/databaseAccounts/', parameters('name'))]",
-                        "[concat('Microsoft.Storage/storageAccounts/', variables('storage'))]"
+                        "[resourceId('Microsoft.Web/sites/', variables('engine'))]",
+                        "[resourceId('Microsoft.DocumentDB/databaseAccounts/', parameters('name'))]",
+                        "[resourceId('Microsoft.Storage/storageAccounts/', variables('storage'))]"
                     ],
                     "properties": {
                         "MONGODB_CONNECTION_STRING": "[concat('mongodb://', parameters('name'), ':', listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts/', parameters('name')), '2015-04-08').primaryMasterKey, '@', parameters('name'), '.documents.azure.com:10250/?ssl=true')]",
                         "SERVICE_BUS_CONNECTION_STRING": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/AuthorizationRules/', parameters('name'), parameters('name')), '2015-08-01').primaryConnectionString]",
-                        "STORAGE_KEY": "[listKeys(resourceId('Microsoft.Storage/storageAccounts/', variables('storage')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"
+                        "STORAGE_KEY": "[listKeys(resourceId('Microsoft.Storage/storageAccounts/', variables('storage')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]",
+                        "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storage'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts/', variables('storage')), '2015-05-01-preview').key1)]",
+                        "AzureWebJobsDashboard": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storage'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts/', variables('storage')), '2015-05-01-preview').key1)]"
                     }
                 }
             ]
