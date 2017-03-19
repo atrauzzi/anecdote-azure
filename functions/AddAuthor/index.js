@@ -9,7 +9,7 @@ module.exports = function (context, input) {
             anecdote.AzureServiceBusQueue
         ],
         "MONGODB_CONNECTION_STRING": process.env["MONGODB_CONNECTION_STRING"],
-        "SERVICE_BUS_CONNECTION_STRING": process.env["SERVICE_BUS_CONNECTION_STRING"]
+        "AZURE_SERVICEBUS_CONNECTION_STRING": process.env["AZURE_SERVICEBUS_CONNECTION_STRING"]
     });
 
     context.log("Anecdote booted!");
