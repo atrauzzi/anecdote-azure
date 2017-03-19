@@ -27,7 +27,8 @@
                     "defaultConsistencyLevel": "Session",
                     "maxIntervalInSeconds": 5,
                     "maxStalenessPrefix": 100
-                }
+                },
+                "OfferThroughput": 400
             }
         },
         {
