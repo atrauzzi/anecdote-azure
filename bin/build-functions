@@ -13,6 +13,8 @@ do
         --ignore-engines \
         --production
 
+    yarn clean
+
     cd ..
     cd ..
 done
