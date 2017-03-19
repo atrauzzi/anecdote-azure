@@ -162,6 +162,7 @@
                     ],
                     "properties": {
                         "AZURE_SERVICEBUS_CONNECTION_STRING": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/AuthorizationRules/', parameters('name'), parameters('name')), '2015-08-01').primaryConnectionString]",
+                        "AZURE_STORAGE_CONNECTION_STRING": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storage'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts/', variables('storage')), '2015-05-01-preview').key1)]",
                         "STORAGE_KEY": "[listKeys(resourceId('Microsoft.Storage/storageAccounts/', variables('storage')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]",
                         "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storage'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts/', variables('storage')), '2015-05-01-preview').key1)]",
                         "AzureWebJobsDashboard": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storage'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts/', variables('storage')), '2015-05-01-preview').key1)]",

@@ -2,6 +2,7 @@ const anecdote = require("anecdote-engine");
 
 
 const anecdoteService = anecdote.build({
+    repository: anecdote.AzureTableStorageRepository,
     queues: [
         anecdote.AzureServiceBusQueue
     ],
