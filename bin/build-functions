@@ -8,6 +8,7 @@ do
     cd $DIR
 
     yarn install \
+        --no-progress \
         --no-bin-links \
         --ignore-engines \
         --production
