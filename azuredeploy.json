@@ -13,25 +13,6 @@
     },
     "resources": [
         {
-            "apiVersion": "2015-04-08",
-            "type": "Microsoft.DocumentDB/databaseAccounts",
-            "name": "[parameters('name')]",
-            "kind": "MongoDB",
-            "tags": {
-                "project": "anecdote"
-            },
-            "location": "East US 2",
-            "properties": {
-                "databaseAccountOfferType": "Standard",
-                "consistencyPolicy": {
-                    "defaultConsistencyLevel": "Session",
-                    "maxIntervalInSeconds": 5,
-                    "maxStalenessPrefix": 100
-                },
-                "OfferThroughput": 400
-            }
-        },
-        {
             "type": "Microsoft.Storage/storageAccounts",
             "name": "[variables('storage')]",
             "tags": {
@@ -180,7 +161,6 @@
                         "[resourceId('Microsoft.Storage/storageAccounts/', variables('storage'))]"
                     ],
                     "properties": {
-                        "MONGODB_CONNECTION_STRING": "[concat('mongodb://', parameters('name'), ':', listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts/', parameters('name')), '2015-04-08').primaryMasterKey, '@', parameters('name'), '.documents.azure.com:10250/?ssl=true')]",
                         "AZURE_SERVICEBUS_CONNECTION_STRING": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/AuthorizationRules/', parameters('name'), parameters('name')), '2015-08-01').primaryConnectionString]",
                         "STORAGE_KEY": "[listKeys(resourceId('Microsoft.Storage/storageAccounts/', variables('storage')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]",
                         "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storage'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts/', variables('storage')), '2015-05-01-preview').key1)]",
