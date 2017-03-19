@@ -31,6 +31,12 @@ cd functions
 zip -r -v ../functions.zip *
 cd ..
 
+echo "Clearing secrets"
+curl -X POST https://${DEPLOYMENT_HOST}.scm.azurewebsites.net/api/command --header "${AUTHORIZATION_HEADER}" --header "content-type: application/json" -d '{"dir": "site", "command": "rm /s /q home/data/Functions/secrets/host.json"}'
+
+echo "Wiping web directory"
 curl -X POST https://${DEPLOYMENT_HOST}.scm.azurewebsites.net/api/command --header "${AUTHORIZATION_HEADER}" --header "content-type: application/json" -d '{"dir": "site", "command": "rd /s /q wwwroot"}'
 curl -X POST https://${DEPLOYMENT_HOST}.scm.azurewebsites.net/api/command --header "${AUTHORIZATION_HEADER}" --header "content-type: application/json" -d '{"dir": "site", "command": "md wwwroot"}'
+
+echo "Uploading functions"
 curl -X PUT https://${DEPLOYMENT_HOST}.scm.azurewebsites.net/api/zip/site/wwwroot --header "${AUTHORIZATION_HEADER}" --upload-file functions.zip
