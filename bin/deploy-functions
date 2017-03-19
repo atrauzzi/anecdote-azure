@@ -41,11 +41,12 @@ curl -X POST https://${DEPLOYMENT_HOST}.scm.azurewebsites.net/api/command --head
 
 
 echo "Deleting previous deployment"
-curl -X POST https://${DEPLOYMENT_HOST}.scm.azurewebsites.net/api/command --header "${AUTHORIZATION_HEADER}" --header "content-type: application/json" -d '{"dir": "site", "command": "del /f/s/q wwwroot > nul"}'
-
-#curl -X POST https://${DEPLOYMENT_HOST}.scm.azurewebsites.net/api/command --header "${AUTHORIZATION_HEADER}" --header "content-type: application/json" -d '{"dir": "site", "command": "rmdir /S /Q wwwroot"}'
-#curl -X POST https://${DEPLOYMENT_HOST}.scm.azurewebsites.net/api/command --header "${AUTHORIZATION_HEADER}" --header "content-type: application/json" -d '{"dir": "site", "command": "rmdir /S /Q wwwroot"}'
-#curl -X POST https://${DEPLOYMENT_HOST}.scm.azurewebsites.net/api/command --header "${AUTHORIZATION_HEADER}" --header "content-type: application/json" -d '{"dir": "site", "command": "rmdir /S /Q wwwroot"}'
+#curl -X POST https://${DEPLOYMENT_HOST}.scm.azurewebsites.net/api/command --header "${AUTHORIZATION_HEADER}" --header "content-type: application/json" -d '{"dir": "site", "command": "del /f/s/q wwwroot > nul"}'
+# Deletes are so slow on Azure that they time out, so hammer the api a bunch of times because I just have no clue what else to do!?!??!
+# ToDo: https://github.com/projectkudu/kudu/issues/2367#issuecomment-287627597
+curl -X POST https://${DEPLOYMENT_HOST}.scm.azurewebsites.net/api/command --header "${AUTHORIZATION_HEADER}" --header "content-type: application/json" -d '{"dir": "site", "command": "rmdir /S /Q wwwroot"}'
+curl -X POST https://${DEPLOYMENT_HOST}.scm.azurewebsites.net/api/command --header "${AUTHORIZATION_HEADER}" --header "content-type: application/json" -d '{"dir": "site", "command": "rmdir /S /Q wwwroot"}'
+curl -X POST https://${DEPLOYMENT_HOST}.scm.azurewebsites.net/api/command --header "${AUTHORIZATION_HEADER}" --header "content-type: application/json" -d '{"dir": "site", "command": "rmdir /S /Q wwwroot"}'
 
 echo "Preparing new directory"
 curl -X POST https://${DEPLOYMENT_HOST}.scm.azurewebsites.net/api/command --header "${AUTHORIZATION_HEADER}" --header "content-type: application/json" -d '{"dir": "site", "command": "md wwwroot"}'
@@ -54,6 +55,6 @@ echo "Uploading Functions"
 curl -X PUT https://${DEPLOYMENT_HOST}.scm.azurewebsites.net/api/zip/site/wwwroot --header "${AUTHORIZATION_HEADER}" --upload-file functions.zip
 
 echo "Starting App Service"
-az appservice web stop \
+az appservice web start \
     --resource-group $ANECDOTE_AZURE_DEPLOYMENT_NAME \
     --name ${ANECDOTE_AZURE_DEPLOYMENT_NAME}-engine
