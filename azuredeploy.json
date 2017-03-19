@@ -13,14 +13,14 @@
     },
     "resources": [
         {
-            "type": "Microsoft.DocumentDB/databaseAccounts",
-            "kind": "MongoDB",
-            "name": "[parameters('name')]",
             "apiVersion": "2015-04-08",
-            "location": "East US 2",
+            "type": "Microsoft.DocumentDB/databaseAccounts",
+            "name": "[parameters('name')]",
+            "kind": "MongoDB",
             "tags": {
-
+                "project": "anecdote"
             },
+            "location": "East US 2",
             "properties": {
                 "databaseAccountOfferType": "Standard",
                 "consistencyPolicy": {
@@ -33,17 +33,27 @@
         },
         {
             "type": "Microsoft.Storage/storageAccounts",
+            "name": "[variables('storage')]",
+            "tags": {
+                "project": "anecdote"
+            },
             "sku": {
                 "name": "Standard_LRS",
                 "tier": "Standard"
             },
             "kind": "Storage",
-            "name": "[variables('storage')]",
+
             "apiVersion": "2016-01-01",
             "location": "East US 2"
         },
         {
+            "apiVersion": "2015-08-01",
             "type": "Microsoft.Web/serverfarms",
+            "kind": "functionapp",
+            "name": "[concat(parameters('name'), '-engine')]",
+            "tags": {
+                "project": "anecdote"
+            },
             "sku": {
                 "name": "Y1",
                 "tier": "Dynamic",
@@ -51,49 +61,78 @@
                 "family": "Y",
                 "capacity": 0
             },
-            "kind": "functionapp",
-            "name": "[concat(parameters('name'), '-engine')]",
-            "apiVersion": "2015-08-01",
             "location": "East US 2",
             "properties": {
                 "numberOfWorkers": 0
             }
         },
         {
+            "apiVersion": "2015-08-01",
             "type": "Microsoft.ServiceBus/namespaces",
+            "kind": "Messaging",
+            "name": "[parameters('name')]",
+            "tags": {
+                "project": "anecdote"
+            },
             "sku": {
                 "name": "Basic",
                 "tier": "Basic"
             },
-            "kind": "Messaging",
-            "name": "[parameters('name')]",
-            "apiVersion": "2015-08-01",
             "location": "East US 2",
-            "tags": {},
             "resources": [
                 {
+                    "apiVersion": "2015-08-01",
                     "type": "AuthorizationRules",
                     "name": "[parameters('name')]",
-                    "apiVersion": "2015-08-01",
+                    "tags": {
+                        "project": "anecdote"
+                    },
+                    "dependsOn": [
+                        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('name'))]"
+                    ],
                     "properties": {
                         "rights": [
                             "Manage",
                             "Send",
                             "Listen"
                         ]
+                    }
+                },
+                {
+                    "apiVersion": "2015-08-01",
+                    "location": "East US 2",
+                    "type": "queues",
+                    "name": "scan-sources",
+                    "tags": {
+                        "project": "anecdote"
                     },
                     "dependsOn": [
                         "[resourceId('Microsoft.ServiceBus/namespaces', parameters('name'))]"
-                    ]
+                    ],
+                    "properties": {
+                        "maxSizeInMegabytes": 1024,
+                        "requiresDuplicateDetection": false,
+                        "requiresSession": false,
+                        "defaultMessageTimeToLive": "1.00:00:00",
+                        "deadLetteringOnMessageExpiration": true,
+                        "enableBatchedOperations": true,
+                        "isAnonymousAccessible": false,
+                        "supportOrdering": true,
+                        "enablePartitioning": false,
+                        "enableExpress": false
+                    }
                 }
             ]
         },
         {
+            "apiVersion": "2015-08-01",
+            "location": "East US 2",
             "type": "Microsoft.Web/sites",
             "kind": "functionapp",
             "name": "[variables('engine')]",
-            "apiVersion": "2015-08-01",
-            "location": "East US 2",
+            "tags": {
+                "project": "anecdote"
+            },
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms/', variables('engine'))]"
             ],
@@ -132,6 +171,9 @@
                     "apiVersion": "2016-08-01",
                     "type": "config",
                     "name": "appsettings",
+                    "tags": {
+                        "project": "anecdote"
+                    },
                     "dependsOn": [
                         "[resourceId('Microsoft.Web/sites/', variables('engine'))]",
                         "[resourceId('Microsoft.DocumentDB/databaseAccounts/', parameters('name'))]",
