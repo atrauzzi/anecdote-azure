@@ -2,11 +2,13 @@
 
 for dir in ./functions/*
 do
+
     DIR=${dir%*/}
 
     cd $DIR
 
     yarn install --no-bin-links --ignore-engines
 
+    cd ..
     cd ..
 done
