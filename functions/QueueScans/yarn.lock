@@ -42,8 +42,8 @@ amqplib@^0.5.1:
     readable-stream "1.x >=1.1.9"
 
 anecdote-engine@^1.0.0:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/anecdote-engine/-/anecdote-engine-1.0.8.tgz#3935a70d9e9819150ca43f166869a024f5e1b5f5"
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/anecdote-engine/-/anecdote-engine-1.0.9.tgz#f5a93f3937b8406432d1ca51d934e1c32901cc2b"
   dependencies:
     "@types/azure" "^0.9.18"
     amqplib "^0.5.1"
@@ -912,22 +912,22 @@ moment@2.14.1:
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.14.1.tgz#b35b27c47e57ed2ddc70053d6b07becdb291741c"
 
 moment@^2.14.0, moment@^2.14.1, moment@^2.17.1:
-  version "2.17.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.17.1.tgz#fed9506063f36b10f066c8b59a144d7faebe1d82"
+  version "2.18.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.0.tgz#6cfec6a495eca915d02600a67020ed994937252c"
 
-mongodb-core@2.1.8:
-  version "2.1.8"
-  resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-2.1.8.tgz#b33e0370d0a59d97b6cb1ec610527be9e95ca2c0"
+mongodb-core@2.1.9:
+  version "2.1.9"
+  resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-2.1.9.tgz#85aa71ee4fb716196e06b787557bf139f801daf5"
   dependencies:
     bson "~1.0.4"
     require_optional "~1.0.0"
 
 mongodb@^2.2.22:
-  version "2.2.24"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-2.2.24.tgz#80f40d6ec5bdec0ddecf0f9ce0144e794c46449a"
+  version "2.2.25"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-2.2.25.tgz#d3b25dad00eda2bdfcbc996210ba082ac686a6b6"
   dependencies:
     es6-promise "3.2.1"
-    mongodb-core "2.1.8"
+    mongodb-core "2.1.9"
     readable-stream "2.1.5"
 
 mpns@~2.0.0:
