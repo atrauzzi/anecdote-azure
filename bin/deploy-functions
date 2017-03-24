@@ -78,4 +78,5 @@ az resource update \
 echo "Starting App Service"
 az appservice web start \
     --resource-group $ANECDOTE_AZURE_DEPLOYMENT_NAME \
-    --name ${ANECDOTE_AZURE_DEPLOYMENT_NAME}-en
+    --name ${ANECDOTE_AZURE_DEPLOYMENT_NAME}-engine
+    
