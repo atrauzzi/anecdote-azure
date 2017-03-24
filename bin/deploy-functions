@@ -54,7 +54,7 @@ az storage blob upload \
 DEPLOYMENT_BLOB_URI=`az storage blob url \
     --container-name deployment \
     --connection-string "${DEPLOYMENT_STORAGE_CONNECTION_STRING}" \
-    --name functions.zip
+    --name functions.zip \
     --output tsv`
 
 echo "Stopping App Service"
