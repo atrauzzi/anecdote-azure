@@ -1,20 +1,11 @@
 #!/bin/bash
 
-for dir in ./functions/*
-do
+cd functions/
 
-    DIR=${dir%*/}
+yarn install \
+    --no-progress \
+    --no-bin-links \
+    --ignore-engines \
+    --production
 
-    cd $DIR
-
-    yarn install \
-        --no-progress \
-        --no-bin-links \
-        --ignore-engines \
-        --production
-
-    yarn clean
-
-    cd ..
-    cd ..
-done
+cd ..
