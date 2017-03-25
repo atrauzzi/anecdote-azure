@@ -71,9 +71,9 @@ az resource update \
     --namespace Microsoft.Web \
     --name MSDeploy \
     --resource-type Extensions \
-    --resource-group ${$ANECDOTE_AZURE_DEPLOYMENT_NAME} \
+    --resource-group ${ANECDOTE_AZURE_DEPLOYMENT_NAME} \
     --parent sites/${ANECDOTE_AZURE_DEPLOYMENT_NAME}-engine \
-    --set properties.packageUri=${DEPLOYMENT_BLOB_URI} \
+    --set "properties.packageUri=${DEPLOYMENT_BLOB_URI}"
 
 echo "Starting App Service"
 az appservice web start \
