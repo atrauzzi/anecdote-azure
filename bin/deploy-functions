@@ -26,7 +26,7 @@ DEPLOYMENT_STORAGE_ACCOUNT=`az storage account list \
 
 DEPLOYMENT_STORAGE_CONNECTION_STRING=`az storage account show-connection-string \
     --resource-group $ANECDOTE_AZURE_DEPLOYMENT_NAME \
-    --name $DEPLOYMENT_STORAGE_ACCOUNT
+    --name $DEPLOYMENT_STORAGE_ACCOUNT \
     --output tsv`
 
 echo "Creating deployment storage container"
