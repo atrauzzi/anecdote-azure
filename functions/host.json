@@ -3,6 +3,5 @@
   "http": {
     "routePrefix": ""
   },
-  "watchDirectories": [],
-  "functions": [ "QueueScans" ]
+  "watchDirectories": []
 }
