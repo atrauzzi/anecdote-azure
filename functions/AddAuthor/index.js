@@ -19,7 +19,7 @@ module.exports = function (context, input) {
 
     anecdote.service
         .addAuthor(author)
-        .then(function () { anecdoteService.close()})
+        .then(function () { anecdote.service.close()})
         .then(function () { context.log("End of line")})
         .then(function () { context.done()})
         .catch(function (error) { context.done(error)})
