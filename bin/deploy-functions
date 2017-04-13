@@ -1,19 +1,19 @@
 #!/bin/bash
 
 
-DEPLOYMENT_PASSWORD=`az appservice web deployment list-site-credentials \
+DEPLOYMENT_PASSWORD=`az appservice web deployment user show \
     --resource-group $ANECDOTE_AZURE_DEPLOYMENT_NAME \
     --name ${ANECDOTE_AZURE_DEPLOYMENT_NAME}-engine \
     --query publishingPassword \
     --output tsv`
 
-DEPLOYMENT_USERNAME=`az appservice web deployment list-site-credentials \
+DEPLOYMENT_USERNAME=`az appservice web deployment user show \
      --resource-group $ANECDOTE_AZURE_DEPLOYMENT_NAME \
      --name ${ANECDOTE_AZURE_DEPLOYMENT_NAME}-engine \
      --query publishingUserName \
      --output tsv`
 
-DEPLOYMENT_HOST=`az appservice web deployment list-site-credentials \
+DEPLOYMENT_HOST=`az appservice web deployment user show \
      --resource-group $ANECDOTE_AZURE_DEPLOYMENT_NAME \
      --name ${ANECDOTE_AZURE_DEPLOYMENT_NAME}-engine \
      --query name \
